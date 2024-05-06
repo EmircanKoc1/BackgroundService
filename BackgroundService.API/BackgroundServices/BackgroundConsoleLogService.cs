@@ -12,12 +12,18 @@ namespace BackgroundService.API.BackgroundServices
             _consoleLogService = consoleLogService;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-                _consoleLogService.Log("Executed backgroundconsole log service");
+            Func<Task> func = async () =>
+            {
+                await Task.Delay(delay: TimeSpan.FromSeconds(1));
 
-            return Task.CompletedTask;
+                _consoleLogService.Log("Executed BackgroundLogService");
+            };
+
+            while (!stoppingToken.IsCancellationRequested)
+                await func.Invoke();
+
         }
 
 
