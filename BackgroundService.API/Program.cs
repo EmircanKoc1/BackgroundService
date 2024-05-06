@@ -17,6 +17,7 @@ namespace BackgroundService.API
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddHostedService<BGLogService>();
+            builder.Services.AddHostedService<HLogService>();
 
             var app = builder.Build();
 
@@ -26,6 +27,7 @@ namespace BackgroundService.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
 
             app.UseHttpsRedirection();
 

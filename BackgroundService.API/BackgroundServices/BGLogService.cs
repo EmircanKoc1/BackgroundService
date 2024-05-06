@@ -5,10 +5,16 @@ namespace BackgroundService.API.BackgroundServices
 {
     public class BGLogService : meh.BackgroundService
     {
+        private readonly ILogger<BGLogService> _loggerService;
+
+        public BGLogService(ILogger<BGLogService> loggerService)
+        {
+            _loggerService = loggerService;
+        }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine("Started");
+            _loggerService.LogError("started bglogservice");
 
             return base.StartAsync(cancellationToken);
         }
@@ -16,7 +22,7 @@ namespace BackgroundService.API.BackgroundServices
         public override Task StopAsync(CancellationToken cancellationToken)
         {
 
-            Console.WriteLine("Stopped");
+            _loggerService.LogError("stopped bglogservice");
             return base.StopAsync(cancellationToken);
         }
 
@@ -25,13 +31,12 @@ namespace BackgroundService.API.BackgroundServices
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                PrintConsole();
+                Log();
                 await Task.Delay(1000);
             }
 
         }
 
-        void PrintConsole() => Console.WriteLine("exetuing");
-
+        void Log() => _loggerService.LogError("executed bglogservice");
     }
 }
