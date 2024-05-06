@@ -1,5 +1,7 @@
 
 using BackgroundService.API.BackgroundServices;
+using BackgroundService.API.Services.Implementations;
+using BackgroundService.API.Services.Interfaces;
 
 namespace BackgroundService.API
 {
@@ -16,8 +18,11 @@ namespace BackgroundService.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddSingleton<IConsoleLogService, ConsoleLogService>();
+
             builder.Services.AddHostedService<BGLogService>();
             builder.Services.AddHostedService<HLogService>();
+            builder.Services.AddHostedService<BackgroundConsoleLogService>();
 
             var app = builder.Build();
 
